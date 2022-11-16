@@ -28,7 +28,9 @@ public class LoginApplication {
 	CommandLineRunner runner(UserRepository userRepository) {
 		return args -> {
 			String username = "aaa123";
+			String usernameManager = "mmm123";
 			User user = new User("Stella", username, "aaa", Role.USER);
+			User manager = new User("StellaManager", usernameManager, "aaa", Role.MANAGER);
 			userRepository.findUserByUsername(username).ifPresentOrElse( u -> {
 				System.out.println("user already exist.");
 			}
@@ -36,6 +38,13 @@ public class LoginApplication {
 				System.out.println("Success.");
 				userRepository.insert(user);
 			});
+			userRepository.findUserByUsername(usernameManager).ifPresentOrElse( u -> {
+						System.out.println("manager already exist.");
+					}
+					, () -> {
+						System.out.println("Success.");
+						userRepository.insert(manager);
+					});
 		};
 	}
 
